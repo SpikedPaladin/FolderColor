@@ -11,15 +11,20 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-import os, gettext, gi
+import os, gi
 from pathlib import Path
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gdk", "4.0")
+from gettext import gettext, bindtextdomain, textdomain
 from gi.repository import Nautilus, Gtk, Gdk, GObject, Gio, GLib
 
 # i18n
-gettext.textdomain("folder-color")
-_ = gettext.gettext
+bindtextdomain("@GETTEXT_PACKAGE@", "@LOCALEDIR@")
+textdomain("@GETTEXT_PACKAGE@")
+_ = gettext
+
+COLOR = _("Color")
+EMBLEM = _("Emblem")
 
 COLORS_ALL = {
     "black": _("Black"),
@@ -244,9 +249,9 @@ class FolderColorMenu(GObject.GObject, Nautilus.MenuProvider):
 
         # Main menu
         if self.all_dirs and colors:
-            top_menuitem = Nautilus.MenuItem(name="FolderColorMenu::colors", label=_("Color"), icon="color-picker")
+            top_menuitem = Nautilus.MenuItem(name="FolderColorMenu::colors", label=COLOR, icon="color-picker")
         elif emblems:
-            top_menuitem = Nautilus.MenuItem(name="FolderColorMenu::colors", label=_("Emblem"), icon="color-picker")
+            top_menuitem = Nautilus.MenuItem(name="FolderColorMenu::colors", label=EMBLEM, icon="color-picker")
         else:
             return
         submenu = Nautilus.Menu()
